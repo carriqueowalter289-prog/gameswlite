@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GamesWLite XP</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Tahoma;
+user-select:none;
+}
+
+body{
+overflow:hidden;
+background:url('https://images.wallpapersden.com/image/download/cross-of-jesus_bG5nZW2UmZqaraWkpJRmbmdlrWZlbWU.jpg');
+background-size:cover;
+background-position:center;
+height:100vh;
+}
+
+/* ESCRITORIO */
+
+.desktop{
+padding:20px;
+display:flex;
+flex-direction:column;
+gap:18px;
+height:calc(100vh - 45px);
+flex-wrap:wrap;
+align-content:flex-start;
+}
+
+.icon{
+width:90px;
+text-align:center;
+color:white;
+cursor:pointer;
+padding:8px;
+border-radius:8px;
+transition:0.2s;
+text-shadow:2px 2px 4px black;
+}
+
+.icon:hover{
+background:rgba(255,255,255,0.2);
+border:1px solid rgba(255,255,255,0.5);
+}
+
+.icon img{
+width:50px;
+height:50px;
+margin-bottom:5px;
+}
+
+/* VENTANAS */
+
+.window{
+position:absolute;
+width:900px;
+height:540px;
+background:#ECE9D8;
+border:3px solid #245EDB;
+border-radius:10px;
+top:60px;
+left:120px;
+display:none;
+box-shadow:0 0 40px black;
+overflow:hidden;
+}
+
+.titlebar{
+height:35px;
+background:linear-gradient(to right,#0058EE,#3A93FF);
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 10px;
+color:white;
+font-weight:bold;
+}
+
+.buttons{
+display:flex;
+gap:6px;
+}
+
+.btn{
+width:20px;
+height:20px;
+background:red;
+border-radius:4px;
+cursor:pointer;
+}
+
+.content{
+height:calc(100% - 35px);
+background:white;
+}
+
+iframe{
+width:100%;
+height:100%;
+border:none;
+}
+
+/* TASKBAR */
+
+.taskbar{
+position:fixed;
+bottom:0;
+width:100%;
+height:45px;
+background:linear-gradient(to bottom,#245EDB,#1941A5);
+display:flex;
+align-items:center;
+padding:0 5px;
+z-index:999;
+}
+
+.start{
+background:green;
+padding:7px 20px;
+border-radius:12px;
+color:white;
+font-weight:bold;
+font-size:18px;
+box-shadow:inset 0 0 5px rgba(255,255,255,0.5);
+cursor:pointer;
+}
+
+.clock{
+margin-left:auto;
+margin-right:15px;
+color:white;
+font-weight:bold;
+}
+
+/* MENU INICIO */
+
+.startmenu{
+position:fixed;
+bottom:50px;
+left:5px;
+width:260px;
+background:#ECE9D8;
+border:3px solid #245EDB;
+border-radius:10px;
+display:none;
+overflow:hidden;
+box-shadow:0 0 20px black;
+}
+
+.startheader{
+background:linear-gradient(to right,#0058EE,#3A93FF);
+padding:15px;
+color:white;
+font-size:20px;
+font-weight:bold;
+}
+
+.menuitem{
+padding:12px;
+cursor:pointer;
+border-bottom:1px solid #ccc;
+}
+
+.menuitem:hover{
+background:#3A93FF;
+color:white;
+}
+
+/* JUEGO RETRO */
+
+.gamebox{
+background:black;
+width:100%;
+height:100%;
+position:relative;
+overflow:hidden;
+}
+
+.player{
+width:40px;
+height:40px;
+background:lime;
+position:absolute;
+bottom:10px;
+left:50px;
+}
+
+.enemy{
+width:40px;
+height:40px;
+background:red;
+position:absolute;
+bottom:10px;
+right:0;
+animation:moveEnemy 2s linear infinite;
+}
+
+@keyframes moveEnemy{
+0%{right:-50px;}
+100%{right:100%;}
+}
+
+.score{
+position:absolute;
+top:10px;
+left:10px;
+color:white;
+font-size:20px;
+}
+
+/* XP PLAYER */
+
+.musicplayer{
+position:fixed;
+top:10px;
+right:10px;
+background:rgba(0,0,0,0.5);
+padding:10px;
+border-radius:10px;
+backdrop-filter:blur(5px);
+}
+
+.musicplayer button{
+padding:8px;
+border:none;
+border-radius:6px;
+cursor:pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- AUDIO XP -->
+
+<audio id="xpMusic" loop>
+<source src="https://files.catbox.moe/7xqk6e.mp3" type="audio/mpeg">
+</audio>
+
+<div class="musicplayer">
+<button onclick="toggleMusic()">🎵 Música XP</button>
+</div>
+
+<!-- ESCRITORIO -->
+
+<div class="desktop">
+
+<div class="icon" onclick="openSite('https://www.friv.com/')">
+<img src="https://upload.wikimedia.org/wikipedia/commons/7/75/Friv_logo.png">
+<div>Friv</div>
+</div>
+
+<div class="icon" onclick="openSite('https://www.y8.com/')">
+<img src="https://seeklogo.com/images/Y/y8-logo-5F9A6DDA3A-seeklogo.com.png">
+<div>Y8</div>
+</div>
+
+<div class="icon" onclick="openSite('https://www.youtube.com/')">
+<img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png">
+<div>YouTube</div>
+</div>
+
+<div class="icon" onclick="openRetroGame()">
+<img src="https://cdn-icons-png.flaticon.com/512/686/686589.png">
+<div>Retro Game</div>
+</div>
+
+<div class="icon" onclick="openSite('https://archive.org/details/softwarelibrary_msdos_games')">
+<img src="https://cdn-icons-png.flaticon.com/512/1055/1055687.png">
+<div>Descargas</div>
+</div>
+
+<div class="icon" onclick="openSite('https://www.retrogames.cc/')">
+<img src="https://cdn-icons-png.flaticon.com/512/2917/2917992.png">
+<div>Retro Games</div>
+</div>
+
+<div class="icon" onclick="openSite('https://classicreload.com/')">
+<img src="https://cdn-icons-png.flaticon.com/512/833/833472.png">
+<div>Clásicos</div>
+</div>
+
+<div class="icon" onclick="openSite('https://store.steampowered.com/')">
+<img src="https://cdn-icons-png.flaticon.com/512/3670/3670382.png">
+<div>Steam</div>
+</div>
+
+</div>
+
+<!-- VENTANA -->
+
+<div class="window" id="window">
+
+<div class="titlebar">
+
+<div>GamesWLite XP</div>
+
+<div class="buttons">
+<div class="btn" onclick="closeWindow()"></div>
+</div>
+
+</div>
+
+<div class="content" id="content">
+
+</div>
+
+</div>
+
+<!-- TASKBAR -->
+
+<div class="taskbar">
+
+<div class="start" onclick="toggleStart()">
+Inicio
+</div>
+
+<div class="clock" id="clock">
+00:00
+</div>
+
+</div>
+
+<!-- MENU INICIO -->
+
+<div class="startmenu" id="startmenu">
+
+<div class="startheader">
+GamesWLite XP
+</div>
+
+<div class="menuitem" onclick="openRetroGame()">
+🎮 Abrir Juego Retro
+</div>
+
+<div class="menuitem" onclick="openSite('https://www.friv.com/')">
+🕹️ Abrir Friv
+</div>
+
+<div class="menuitem" onclick="openSite('https://www.youtube.com/')">
+📺 Abrir YouTube
+</div>
+
+<div class="menuitem" onclick="toggleMusic()">
+🎵 Música XP
+</div>
+
+<div class="menuitem" onclick="alert('GamesWLite XP creado por Walter 😎')">
+💻 Acerca de
+</div>
+
+</div>
+
+<script>
+
+/* RELOJ */
+
+function updateClock(){
+
+let now=new Date();
+
+let h=now.getHours().toString().padStart(2,'0');
+let m=now.getMinutes().toString().padStart(2,'0');
+
+document.getElementById("clock").innerHTML=h+":"+m;
+
+}
+
+setInterval(updateClock,1000);
+updateClock();
+
+/* VENTANAS */
+
+function openSite(url){
+
+document.getElementById("window").style.display="block";
+
+document.getElementById("content").innerHTML=
+`<iframe src="${url}"></iframe>`;
+
+}
+
+function closeWindow(){
+
+document.getElementById("window").style.display="none";
+
+}
+
+/* MENU INICIO */
+
+function toggleStart(){
+
+let menu=document.getElementById("startmenu");
+
+if(menu.style.display=="block"){
+menu.style.display="none";
+}else{
+menu.style.display="block";
+}
+
+}
+
+/* MÚSICA */
+
+let music=document.getElementById("xpMusic");
+
+function toggleMusic(){
+
+if(music.paused){
+music.play();
+}else{
+music.pause();
+}
+
+}
+
+/* JUEGO RETRO */
+
+function openRetroGame(){
+
+document.getElementById("window").style.display="block";
+
+document.getElementById("content").innerHTML=`
+
+<div class="gamebox">
+
+<div class="score" id="score">
+Puntos: 0
+</div>
+
+<div class="player" id="player"></div>
+
+<div class="enemy" id="enemy"></div>
+
+</div>
+
+`;
+
+startGame();
+
+}
+
+function startGame(){
+
+let player=document.getElementById("player");
+
+let enemy=document.getElementById("enemy");
+
+let score=0;
+
+let x=50;
+
+document.addEventListener("keydown",function(e){
+
+if(e.key=="ArrowLeft")x-=20;
+
+if(e.key=="ArrowRight")x+=20;
+
+player.style.left=x+"px";
+
+});
+
+setInterval(function(){
+
+let enemyRect=enemy.getBoundingClientRect();
+
+let playerRect=player.getBoundingClientRect();
+
+if(
+enemyRect.left < playerRect.right &&
+enemyRect.right > playerRect.left &&
+enemyRect.top < playerRect.bottom &&
+enemyRect.bottom > playerRect.top
+){
+
+alert("💀 Perdiste | Puntaje: "+score);
+
+location.reload();
+
+}
+
+score++;
+
+document.getElementById("score").innerHTML="Puntos: "+score;
+
+},100);
+
+}
+
+</script>
+
+</body>
+</html>
